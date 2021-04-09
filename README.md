@@ -1,5 +1,7 @@
 # CSE163Note
 
+Prof: Kevin Lin
+
 ## Basics
 
 - Print 
