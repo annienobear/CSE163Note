@@ -270,7 +270,71 @@ Read Evaluate Print Loop
       return word[0], word[1]
     
     #Unpack
-    a, b = ftletters("cat") # c a
+    a, b = ftletters("cat") #c a
     ```
 
+  - Give a variable name to each component than index
+  
+    ```python
+    t = 4, 5, 6
+    a, b, c = t # unpack
+    a b c # 4, 5, 6
     
+    # Note the number of targets must match the length of tuple
+    
+    a, b, c, d = t # Error
+    a, b = t # Only unpack the first two
+    
+    # Or, if you want only few values, you can do
+    a, b, _ = t
+    ```
+  
+    - List can do the same, but not recommanded since list is mutable
+
+### Set
+
+- **FAST** when finding unique values
+
+  - Set wont allow duplicates 
+  - Does not have notion of indices
+
+- Define
+
+  ```python
+  nums = set()
+  ```
+
+- Set Methods
+
+  - `s.add(num)` adds `num` to `s`, ignore duplicates
+  - `s.remove(num)` removes `num` from s, error if not exist
+  - `s.clear()` removes all values
+  - `len(s)`, `in` keyword
+  - if you try index will be error
+
+### Dictionaries 
+
+- Store data type as index, mutable
+
+- key-value pair
+
+- Define
+
+  ```python
+  d = {'a': 1, 'b': 17, 47: 'sc'}
+  d = {}
+  ```
+
+- Usage
+
+  ```python
+  d['dogs'] = 'cute' # Add new element
+  d['a'] = 'cute' # Change element
+  # if a key already exist => overwitten if you set
+  ```
+
+- **If a key is not in dictionary and you call it by `d['a']` it will return error** 
+
+  - Check first use `in`
+
+  
