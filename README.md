@@ -169,27 +169,6 @@ In terminal: `cat poem.txt` to displat contents
   - relative path
   - absolute path(on Ed) start with /
 
-## List Methods
-
-- `l.append(x)` adds `x` to the end of `l`
-- `l.extend(xs)` adds all elements in `xs` to end of `l`
-- `l.insert(i, x)` inserts `x` at index `i` in `l`
-- `l.remove(x)` removes the first `x` found in `l`
-- `l.pop(i)` removes the element at index `i` in `l`
-- `l.clear()` removes all values from `l`
-- `l.index(x)` returns the first index whose associated value is `x`. If `x` is not in `l` give error
-- `l.reverse()` reverses the order of all elements in `l`
-- `l.sort()` rearranges all elements of `l` into sorted order
-
-- `in` keyword: made for doing contains queries, or **membership queries**
-
-  ```python
-  if 'a' in words: # can also be `not in` if you want
-    print('exist')
-  else:
-    print('no')
-  ```
-
 ## Python Models 
 
 ### Scripts
@@ -204,5 +183,94 @@ Read Evaluate Print Loop
 - Exit using `Ctrl D` / `exit()`
 - Jupyter notebooks
 
+## Data Structures
 
+### List
 
+- Have integer indices order the elements in list
+- Mutable
+
+- **List Methods**
+
+  - `l.append(x)` adds `x` to the end of `l`
+  - `l.extend(xs)` adds all elements in `xs` to end of `l`
+  - `l.insert(i, x)` inserts `x` at index `i` in `l`
+  - `l.remove(x)` removes the first `x` found in `l`
+  - `l.pop(i)` removes the element at index `i` in `l`
+  - `l.clear()` removes all values from `l`
+  - `l.index(x)` returns the first index whose associated value is `x`. If `x` is not in `l` give error
+  - `l.reverse()` reverses the order of all elements in `l`
+  - `l.sort()` rearranges all elements of `l` into sorted order
+
+  - `in` keyword: made for doing contains queries, or **membership queries**
+
+  ```python
+  if 'a' in words: # can also be `not in` if you want
+    print('exist')
+  else:
+    print('no')
+  ```
+
+- **List comprehensions**
+
+  - List can also be sliced
+
+    ```python
+    l = [1, 2, 'hello']
+    print(l[1:2]) # 2
+    l[1] = 3 # mutable can be changed
+    print(l[1]) # 3
+    ```
+
+  - **Syntax**
+
+    ```python
+    nums = [i for i in range(1, 100)] # nums now contains 1 to 99
+    
+    # To be more clear
+    nums = [                   # 3. Store the result in list called nums
+      i                        # 2. The value you will put in list
+      for i in range(1, 100)   # 1. What you are looping for
+    ]
+    
+    # Compute value
+    squares = [i ** 2 for i in range(1, 11)] # in 1-10, store every i ^ 2
+    
+    # Filter value
+    squares = [i ** 2 for i in range(1, 11) if i % 3 == 0] # in 1-10, for every i % 3 == 0, store its i^2
+    ```
+
+### Tuples
+
+- **Immutable** 
+
+- Also have integer indices
+
+- Do not have any meaningful methods since immutable
+
+- Define
+
+  ```python
+  t = 1, 2, 3
+  tt = (1, 2, 3)
+  ```
+
+- Access: same as list
+
+- **Why Tuples instead of Lists?**
+
+  - When you need data that cannot be changed
+
+- Unpack tuples
+
+  - Tuples normally appear as a way to return more than one values from a function 
+
+    ```python
+    def ftletters(word):
+      return word[0], word[1]
+    
+    #Unpack
+    a, b = ftletters("cat") # c a
+    ```
+
+    
