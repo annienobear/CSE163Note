@@ -325,6 +325,7 @@ Read Evaluate Print Loop
   ```python
   d = {'a': 1, 'b': 17, 47: 'sc'}
   d = {}
+  d = dict()
   ```
 
 - Usage
@@ -339,4 +340,151 @@ Read Evaluate Print Loop
 
   - Check first use `in`
 
+- **Dictionary Methods**
+
+  - `d.pop(key)` removes `key` from `d`
+  - `d.keys()` returns a collection of all keys in `d`
+  - `d.values()` returns a collection of all the values in `d`
+  - `d.items()` returns a collection of all `(key, value)` tuples in `d`
+
+- Iteration
+
+  ```python
+  for k in d.keys():
+      print(k, d[k])
+      
+  for pair in d.items():
+      # (key, value) tuples
+      print(pair[0], pair[1])
+  # unpack tuple
+  for k, v in d.items():
+      print(k, v)
+  ```
+
+### Enumerate and Zip
+
+- Python built-in functions
+
+- Enumerate
+
+  - Helps you loop over both indices and elements of a sequence at the same time
+
+    ```python
+    squares = [i ** 2 for i in range(1, 11)]
+    
+    for i, n in enumerate(squares):
+        print(i, n) # Gives both indices and element as tuple
+    ```
+
+- Zip
+
+  - Helps you loop over multiple sequences at the same time. 
+
+    ```python
+    numbers = [i for i in range(1, 11)]
+    squares = [i ** 2 for i in range(1, 11)]
+    cubes = [i ** 3 for i in range(1, 11)]
+    
+    for i in range(len(numbers)):
+        print(numbers[i], squares[i], cubes[i])
+    
+    for n, s, c in zip(numbers, squares, cubes):
+        print(n, s, c) # Give all at the same time as tuples
+    ```
+
+## CSVs
+
+- List of Dictionaries
+
+  ```python
+  data = [
+      {'Name': 'Madrona', 'Salary': 3},
+      {'Name': 'Rit',     'Salary': 1},
+      {'Name': 'Ryan',    'Salary': 3}
+  ]
+  print('Data:', data)
+  print('Number of rows:', len(data))  # Since data is just a list
+  print('Row 2:', data[1])
   
+  ta = data[1]  # This is a dictionary: {'Name': 'Rit', 'Salary': 1}
+  print('Name of TA in Row 2:', ta['Name'])
+  
+  # It helps to print out the types of things
+  print()
+  print('Types')
+  print('type(data)', type(data))
+  print('type(data[1])', type(data[1]))
+  print("type(ta['Name'])", type(ta['Name']))
+  ```
+
+- Reading in a CSV file
+
+  ```python
+  import pandas as pd
+  
+  def parse(file_name):
+      """
+      Reads the CSV with the given file_name and returns it as a list of
+      dictionaries. The list will have a dictionary for each row, and each
+      dictionary will have a key for each column.
+      """
+      df = pd.read_csv(file_name)
+      return df.to_dict('records')
+  
+  print(parse('/course/lessons/tas.csv'))
+  #[{'Name': 'Flora', 'Salary': 3}, {'Name': 'Ken', 'Salary': 1}, {'Name': 'Ryan', 'Salary': 3}]
+  ```
+
+
+## Panda
+
+### Imports
+
+- Python module can be executed and imported
+
+  ```python
+  import module_a
+  import module_a as m
+  from module_a import fun2
+  
+  df = pd.read_csv('/home/tas.csv')
+  ```
+
+### Access Columns
+
+```python
+df['Name']
+```
+
+- Series
+  - `Series` is 1-dimensional (it only has "one direction" like a single row or a single column).
+- DataFrame
+  - A `DataFrame` is a 2-dimensional structure (it has rows and columns like a grid)
+
+### Element Operation
+
+```python
+df2['emissions'] + df2['population'] # returns a new Series that represents the sum of those two columns. The first value in the Series is the sum of the first values in the two that were added, the second is the sum of the second two, etc. It does not modify any of the columns of the dataset
+```
+
+### Filter Data
+
+- If you pass it a `str` (e.g., `df2['emissions']`), it returns that column as a `Series`.
+- If you pass it a `Series` with `dtype=bool` (e.g., `df2[df2['emissions'] >= 200]`), it will return a `DataFrame` of all the rows that `Series` had a `True` value for!
+- Mask
+  - We commonly call a `Series` with `dtype=bool` used for this context a **mask**. It usually makes your program more readable to save those masks in a variable. The following cell shows the exact same example, but adding a variable for readability for the mask.
+- Multiple Conditions
+  - `&` does an element-wise `and` to combine two masks
+  - `|` does an element-wise `or` to combine two masks
+  - `~` does an element-wise `not` of a single mask
+
+### Location
+
+- Can have 2 indexer
+
+### Return Values
+
+- If both the row and column indexers are a single value, returns a single value. This will be whatever the value is at the location so its type will be the same as the `dtype` of the column it comes from.
+- If only one of the row and colum indexers is a single value (meaning the other is multiple values), returns a `Series`.
+- If neither of the row and column indexers are single values (meaning both are multiple values), returns a `DataFrame`.
+
