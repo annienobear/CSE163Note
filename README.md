@@ -458,8 +458,18 @@ df['Name']
 
 - Series
   - `Series` is 1-dimensional (it only has "one direction" like a single row or a single column).
+  - Methods
+    - `min`: calculates the minimum value of the `Series`
+    - `max`: calculates the maximum value of the  `Series`
+    - `idxmin`: calculates the index of the minimum value of the  `Series`
+    - `idxmax`: calculates the index of the maximum value of the  `Series`
+    - `count`: calculates the number values in the `Series`
+    - `mean`: calculates the average value of the `Series`
+    - `unique`: returns a new Series with all the unique values from the `Series`
+    - `groupby`:
 - DataFrame
   - A `DataFrame` is a 2-dimensional structure (it has rows and columns like a grid)
+  - `data[<column name>]`
 
 ### Element Operation
 
@@ -468,6 +478,10 @@ df2['emissions'] + df2['population'] # returns a new Series that represents the 
 ```
 
 ### Filter Data
+
+```python
+data[<boolean series mask>]
+```
 
 - If you pass it a `str` (e.g., `df2['emissions']`), it returns that column as a `Series`.
 - If you pass it a `Series` with `dtype=bool` (e.g., `df2[df2['emissions'] >= 200]`), it will return a `DataFrame` of all the rows that `Series` had a `True` value for!
@@ -480,6 +494,10 @@ df2['emissions'] + df2['population'] # returns a new Series that represents the 
 
 ### Location
 
+```python
+data.loc[<row indexer>, <column indexer>]
+```
+
 - Can have 2 indexer
 
 ### Return Values
@@ -487,4 +505,129 @@ df2['emissions'] + df2['population'] # returns a new Series that represents the 
 - If both the row and column indexers are a single value, returns a single value. This will be whatever the value is at the location so its type will be the same as the `dtype` of the column it comes from.
 - If only one of the row and colum indexers is a single value (meaning the other is multiple values), returns a `Series`.
 - If neither of the row and column indexers are single values (meaning both are multiple values), returns a `DataFrame`.
+
+### Missing Data
+
+`NaN`: Not a number, a common value in Pandas used to present the absence of a value
+
+- Any arithmetic operation on `NaN`, evaluates to `NaN`.
+- Any boolean comparison on `NaN`, evaluates to `False.`
+
+- Access: `numpy`
+
+  ```python
+  import numpy as np
+  
+  print(np.nan)            # nan
+  print(1 + np.nan)        # nan
+  print(np.nan * 1)        # nan
+  print(1 == np.nan)       # False
+  print(np.nan == np.nan)  # False
+  print(1 + None) # ERROR
+  ```
+
+- **Panda Solution**
+
+  To detect if there are missing values:
+
+  - `isnull()`  returns a `bool` `Series`, where `True` marks `NaN` values.
+  - `notnull()` returns a `bool` `Series`, where `True` marks non-`NaN` values.
+
+  To return a new `DataFrame` with `NaN` removed:
+
+  - `dropna()` removes all rows with missing data.
+  - `fillna(value)`  replaces missing data with the given `value`.
+
+  Note these operation wont modify `df` since `panda` operations create new DataFrame
+
+### Sorting
+
+```python
+import pandas as pd
+
+df = pd.read_csv('/course/lessons/fmri.csv')
+
+print(df.sort_values('signal')) # From highest to NaN
+```
+
+### Top-k
+
+```python
+import pandas as pd
+
+df = pd.read_csv('/course/lessons/fmri.csv')
+
+# Returns a new DataFrame with the 10 rows with the largest `signal`.
+print(df.nlargest(10, 'signal'))  
+```
+
+### Time Series
+
+```python
+import pandas as pd
+
+df= pd.read_csv('/course/lessons/bicycles.csv', 
+                index_col='Date', parse_dates=True)
+print(df)
+```
+
+**The index of the resulting `df` shows each date in ISO format: `YYYY-MM-DD HH:MM:SS`.**
+
+### Plotting
+
+```python
+df.plot() # Give a plot
+df.resample('W'/'D'/'M'/'A') # by time-span
+```
+
+- `'D'` = day
+
+- `'W'` = week
+
+- `'M'` = month
+
+- `'A'` = year
+
+  
+
+## Group By, Apply
+
+```python
+shakiness = {}  # Empty dictionary
+for earthquake in data:
+    name = earthquake['name']
+    magnitude = earthquake['magnitude']
+    if name not in shakiness:
+        shakiness[name] = 0
+    shakiness[name] += magnitude # Group by operation
+```
+
+	1. Put all data into group **by** some column label
+	2. **Select** column values of interest 
+	3. **aggregate** the values in each group
+
+- Syntax
+
+  ```python
+  df.groupby('name')['magnitude'].sum() # group by name, for each group select magnitude and aggregate by taking the sum of rows
+  ```
+
+[some note](groupby.png)
+
+### Built-in Function 
+
+- `str.lower()` to lower-case each string and return them as a new `Series`.
+- `str.upper()` to upper-case each string and return them as a new `Series`.
+- `str.len()` to compute the length of each string and return them as a new `Series`.
+- `str.strip()`, `str.lstrip()`, `str.rstrip()` to trim whitespace from each string and return them as a new `Series`.
+
+### Apply
+
+```python
+df['name'].apply(len) # 批量操作
+```
+
+
+
+
 
